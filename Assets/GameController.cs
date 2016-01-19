@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OnPlayerDeath : MonoBehaviour {
+public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -10,6 +10,9 @@ public class OnPlayerDeath : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (Input.GetKey("escape")) {
+                Application.Quit();
+        
+        }
 	}
 }

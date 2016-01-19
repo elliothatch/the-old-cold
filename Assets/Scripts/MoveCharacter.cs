@@ -20,7 +20,7 @@ public class MoveCharacter : MonoBehaviour {
     {
         
 
-        Vector3 moveDirectionVector = new Vector3(lh, -lv, 0.0f);
+        Vector3 moveDirectionVector = new Vector3(lh, lv, 0.0f);
 
         if (moveDirectionVector != Vector3.zero)
         {
@@ -40,7 +40,7 @@ public class MoveCharacter : MonoBehaviour {
             moveDirectionVector = moveDirectionVector * directionLength;
         }
 
-        Vector3 lookDirectionVector = new Vector3(-rh, -rv, 0.0f);
+        Vector3 lookDirectionVector = new Vector3(-rh, rv, 0.0f);
         if (lookDirectionVector != Vector3.zero)
         {
             // Get the length of the directon vector and then normalize it

@@ -1,30 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    public GameObject weapon;
-
+    public Text loseText;
     protected float lastFire1Axis = 0.0f;
+    protected float lastFire2Axis = 0.0f;
     protected bool mouseEnabled = true;
     protected Rigidbody2D rb;
     protected MoveCharacter moveCharacter;
+    protected WeaponController weaponController;
+    protected SpellController spellController;
 
 
 	// Use this for initialization
 	void Start () {
         rb = gameObject.GetComponent<Rigidbody2D>();
         moveCharacter = gameObject.GetComponent<MoveCharacter>();
-        Health.OnDeath += onDeath;
+        weaponController = gameObject.GetComponent<WeaponController>();
+        spellController = gameObject.GetComponent<SpellController>();
+        gameObject.GetComponent<Health>().OnDeath += onDeath;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetButtonDown("Fire1") || (Input.GetAxis("Fire1") == 1.0f && lastFire1Axis != 1.0f))
         {
-            attack();
+            weaponController.attack();
+        }
+        
+        if (Input.GetButtonDown("Fire2") || (Input.GetAxis("Fire2") == 1.0f && lastFire2Axis != 1.0f))
+        {
+            spellController.cast(0);
         }
         lastFire1Axis = Input.GetAxis("Fire1");
+        lastFire2Axis = Input.GetAxis("Fire2");
 	}
 
     void FixedUpdate()
@@ -45,18 +56,12 @@ public class PlayerController : MonoBehaviour {
             rh = lookDirection.x;
             rv = -lookDirection.y;
         }
-        moveCharacter.move(lh, lv, rh, rv);
+        moveCharacter.move(lh, -lv, rh, -rv);
     }
     
-    void attack()
-    {
-        GameObject attackObj = (GameObject) Instantiate(weapon, transform.position, transform.rotation);
-        //attackObj.transform.parent = transform;
-        attackObj.GetComponent<TrackPosition>().target = gameObject;
-    }
-
     void onDeath()
     {
-        Debug.Log("Player dead");
+        loseText.enabled = true;
+        Destroy(this);
     }
 }
